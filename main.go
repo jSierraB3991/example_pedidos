@@ -1,10 +1,13 @@
 package main
 
 import (
-	"net/http"
+	"fmt"
 
+	"github.com/jsierrab3991/example_pedidos/controller"
 	"github.com/jsierrab3991/example_pedidos/database"
 	"github.com/jsierrab3991/example_pedidos/libs"
+	"github.com/jsierrab3991/example_pedidos/repository"
+	"github.com/jsierrab3991/example_pedidos/routes"
 	"github.com/labstack/echo/v4"
 )
 
@@ -14,9 +17,9 @@ func main() {
 	c := libs.Configure("./", "postgres")
 	db := database.New(c)
 	database.AutoMigrate(db)
+	repo := repository.InitiateRepo(db)
 
-	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World!")
-	})
-	e.Logger.Fatal(e.Start(":3000"))
+	controllers := controller.InitiateControllers(repo)
+	routes.Routes(e, controllers)
+	e.Logger.Fatal(e.Start(fmt.Sprintf(":%s", c.ServerPort)))
 }
