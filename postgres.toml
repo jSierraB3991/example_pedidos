@@ -1,0 +1,3 @@
+[database]
+url = "host=localhost user=postgres password=root dbname=pedidos port=5432 sslmode=disable TimeZone=America/Bogota"
+name = "pedidos"
