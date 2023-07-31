@@ -18,3 +18,11 @@ func (repository *Repository) GetUsers() ([]models.User, error) {
 	}
 	return users, nil
 }
+
+func (repository *Repository) SaveUser(user *models.User) (*models.User, error) {
+	result := repository.db.Create(&user)
+	if result.RowsAffected >= 1 && result.Error != nil {
+		return user, nil
+	}
+	return nil, result.Error
+}
