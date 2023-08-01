@@ -14,6 +14,6 @@ func UserRoutes(e *echo.Echo, controllers *controller.Controller) {
 	e.GET("/user", userController.GetUsers)
 	e.GET("/user/:id", userController.GetUserById)
 	e.POST("/user", userController.SaveUser)
-	e.PUT("/user/:id", userController.UpdateUser)
+	e.PUT("/user", userController.UpdateUser)
 	e.DELETE("/user/:id", userController.DeleteUserById)
 }
