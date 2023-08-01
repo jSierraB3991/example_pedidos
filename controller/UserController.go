@@ -3,6 +3,7 @@ package controller
 import (
 	"net/http"
 
+	"github.com/devfeel/mapper"
 	"github.com/jsierrab3991/example_pedidos/dto"
 	"github.com/jsierrab3991/example_pedidos/models"
 	"github.com/jsierrab3991/example_pedidos/repository"
@@ -33,7 +34,10 @@ func (controller *UserController) GetUserById(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
-	return c.JSON(http.StatusCreated, controller.mapToDto(*user))
+	var dto dto.UserDto
+	m := mapper.NewMapper()
+	m.Mapper(user, dto)
+	return c.JSON(http.StatusCreated, dto)
 }
 
 func (controller *UserController) SaveUser(c echo.Context) error {

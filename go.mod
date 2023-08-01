@@ -10,6 +10,7 @@ require (
 )
 
 require (
+	github.com/devfeel/mapper v0.7.13 // indirect
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
