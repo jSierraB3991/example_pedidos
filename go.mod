@@ -3,6 +3,7 @@ module github.com/jsierrab3991/example_pedidos
 go 1.20
 
 require (
+	github.com/devfeel/mapper v0.7.13
 	github.com/labstack/echo/v4 v4.11.1
 	github.com/spf13/viper v1.16.0
 	gorm.io/driver/postgres v1.5.2
@@ -10,7 +11,6 @@ require (
 )
 
 require (
-	github.com/devfeel/mapper v0.7.13 // indirect
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
