@@ -34,10 +34,11 @@ func (controller *UserController) GetUserById(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
-	var dto dto.UserDto
-	m := mapper.NewMapper()
-	m.Mapper(user, dto)
-	return c.JSON(http.StatusCreated, dto)
+	dto := &dto.UserDto{}
+	mapper.Mapper(user, dto)
+	dto.ID = user.ID
+
+	return c.JSON(http.StatusOK, dto)
 }
 
 func (controller *UserController) SaveUser(c echo.Context) error {
@@ -50,7 +51,10 @@ func (controller *UserController) SaveUser(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
-	return c.JSON(http.StatusCreated, controller.mapToDto(*user))
+	dto := &dto.UserDto{}
+	mapper.Mapper(user, dto)
+	dto.ID = user.ID
+	return c.JSON(http.StatusCreated, dto)
 }
 
 func (controller *UserController) UpdateUser(c echo.Context) error {
@@ -63,7 +67,10 @@ func (controller *UserController) UpdateUser(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
-	return c.JSON(http.StatusOK, controller.mapToDto(*user))
+	dto := &dto.UserDto{}
+	mapper.Mapper(user, dto)
+	dto.ID = user.ID
+	return c.JSON(http.StatusOK, dto)
 }
 
 func (controller *UserController) DeleteUserById(c echo.Context) error {
@@ -78,15 +85,10 @@ func (controller *UserController) DeleteUserById(c echo.Context) error {
 func (controller UserController) mapToDtos(users []models.User) []dto.UserDto {
 	var dtos []dto.UserDto
 	for _, user := range users {
-		dtos = append(dtos, controller.mapToDto(user))
+		dto := &dto.UserDto{}
+		mapper.Mapper(&user, dto)
+		dto.ID = user.ID
+		dtos = append(dtos, *dto)
 	}
 	return dtos
-}
-
-func (controller UserController) mapToDto(user models.User) dto.UserDto {
-	return dto.UserDto{
-		Id:       user.ID,
-		Email:    user.Email,
-		Password: user.Password,
-	}
 }

@@ -1,7 +1,7 @@
 package dto
 
 type UserDto struct {
-	Id       uint   `json:"id"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
+	ID       uint   `json:"id" mapper:"ID"`
+	Email    string `json:"email" mapper:"Email"`
+	Password string `json:"password" mapper:"Password"`
 }
