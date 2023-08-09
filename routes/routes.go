@@ -6,14 +6,19 @@ import (
 )
 
 func Routes(e *echo.Echo, controllers *controller.Controller) {
-	UserRoutes(e, controllers)
+	UserRoutes(e, controllers.User)
+	ArticleRoutes(e, controllers.Article)
 }
 
-func UserRoutes(e *echo.Echo, controllers *controller.Controller) {
-	userController := controllers.User
-	e.GET("/user", userController.GetUsers)
-	e.GET("/user/:id", userController.GetUserById)
-	e.POST("/user", userController.SaveUser)
-	e.PUT("/user", userController.UpdateUser)
-	e.DELETE("/user/:id", userController.DeleteUserById)
+func UserRoutes(e *echo.Echo, controller *controller.UserController) {
+	e.GET("/user", controller.GetUsers)
+	e.GET("/user/:id", controller.GetUserById)
+	e.POST("/user", controller.SaveUser)
+	e.PUT("/user", controller.UpdateUser)
+	e.DELETE("/user/:id", controller.DeleteUserById)
+}
+
+func ArticleRoutes(e *echo.Echo, controller *controller.ArticleController) {
+	e.GET("/article", controller.GetArticles)
+	e.POST("/article", controller.SaveArticle)
 }

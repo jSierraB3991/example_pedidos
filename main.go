@@ -17,6 +17,9 @@ import (
 func init() {
 	mapper.Register(&models.User{})
 	mapper.Register(&dto.UserDto{})
+
+	mapper.Register(&models.Article{})
+	mapper.Register(&dto.ArticleDto{})
 }
 
 func main() {
