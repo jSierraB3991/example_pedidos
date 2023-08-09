@@ -24,5 +24,10 @@ func New(enviroment *libs.Enviroment) *gorm.DB {
 func AutoMigrate(db *gorm.DB) {
 	db.AutoMigrate(
 		&models.User{},
+		&models.District{},
+		&models.Article{},
+		&models.Client{},
+		&models.Facture{},
+		&models.DetailFacture{},
 	)
 }

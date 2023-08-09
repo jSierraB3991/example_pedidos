@@ -34,7 +34,14 @@ func (repository *Repository) UpdateUser(user *models.User, id string) (*models.
 		return user, err
 	}
 	user.ID = exists.ID
-	result := repository.db.Model(&exists).Updates(models.User{Email: user.Email, Password: user.Password})
+	result := repository.db.Model(&exists).Updates(
+		models.User{
+			Email:    user.Email,
+			Password: user.Password,
+			Name:     user.Name,
+			LastName: user.LastName,
+			Telphone: user.Telphone,
+		})
 	if result.RowsAffected >= 1 && result.Error != nil {
 		return user, nil
 	}
