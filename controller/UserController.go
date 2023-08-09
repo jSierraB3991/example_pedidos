@@ -42,11 +42,13 @@ func (controller *UserController) GetUserById(c echo.Context) error {
 }
 
 func (controller *UserController) SaveUser(c echo.Context) error {
-
-	user := new(models.User)
-	if err := c.Bind(user); err != nil {
+	userDto := new(dto.UserDto)
+	if err := c.Bind(userDto); err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
+	user := new(models.User)
+	mapper.Mapper(userDto, user)
+
 	_, err := controller.repo.SaveUser(user)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
