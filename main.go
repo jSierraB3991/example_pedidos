@@ -24,6 +24,10 @@ func init() {
 	mapper.Register(&models.District{})
 	mapper.Register(&dto.DistrictDto{})
 	mapper.Register(&dto.DistrictResponse{})
+
+	mapper.Register(&models.Client{})
+	mapper.Register(&dto.ClientRequest{})
+	mapper.Register(&dto.ClientResponse{})
 }
 
 func main() {
