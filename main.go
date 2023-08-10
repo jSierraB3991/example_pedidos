@@ -20,6 +20,10 @@ func init() {
 
 	mapper.Register(&models.Article{})
 	mapper.Register(&dto.ArticleDto{})
+
+	mapper.Register(&models.District{})
+	mapper.Register(&dto.DistrictDto{})
+	mapper.Register(&dto.DistrictResponse{})
 }
 
 func main() {

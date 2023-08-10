@@ -8,6 +8,7 @@ import (
 func Routes(e *echo.Echo, controllers *controller.Controller) {
 	UserRoutes(e, controllers.User)
 	ArticleRoutes(e, controllers.Article)
+	DistrictRoutes(e, controllers.District)
 }
 
 func UserRoutes(e *echo.Echo, controller *controller.UserController) {
@@ -21,4 +22,9 @@ func UserRoutes(e *echo.Echo, controller *controller.UserController) {
 func ArticleRoutes(e *echo.Echo, controller *controller.ArticleController) {
 	e.GET("/article", controller.GetArticles)
 	e.POST("/article", controller.SaveArticle)
+}
+
+func DistrictRoutes(e *echo.Echo, controller *controller.DistrictController) {
+	e.GET("/district", controller.GetDistrict)
+	e.POST("/district", controller.SaveDistrict)
 }
