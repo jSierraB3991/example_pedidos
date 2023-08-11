@@ -7,6 +7,7 @@ type Controller struct {
 	Article  *ArticleController
 	District *DistrictController
 	Client   *ClientController
+	Facture  *FactureController
 }
 
 func InitiateControllers(repo *repository.Repository) *Controller {
@@ -15,5 +16,6 @@ func InitiateControllers(repo *repository.Repository) *Controller {
 		Article:  NewArticleController(repo),
 		District: NewDistrictController(repo),
 		Client:   NewClientController(repo),
+		Facture:  NewFactureController(repo),
 	}
 }

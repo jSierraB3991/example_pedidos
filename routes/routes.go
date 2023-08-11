@@ -10,6 +10,7 @@ func Routes(e *echo.Echo, controllers *controller.Controller) {
 	ArticleRoutes(e, controllers.Article)
 	DistrictRoutes(e, controllers.District)
 	ClientRoutes(e, controllers.Client)
+	FactureRoutes(e, controllers.Facture)
 }
 
 func UserRoutes(e *echo.Echo, controller *controller.UserController) {
@@ -33,4 +34,9 @@ func DistrictRoutes(e *echo.Echo, controller *controller.DistrictController) {
 func ClientRoutes(e *echo.Echo, controller *controller.ClientController) {
 	e.GET("/client", controller.GetClients)
 	e.POST("/client", controller.SaveClient)
+}
+
+func FactureRoutes(e *echo.Echo, controller *controller.FactureController) {
+	e.POST("/shop", controller.Shop)
+	e.POST("/facture", controller.FinishShop)
 }
