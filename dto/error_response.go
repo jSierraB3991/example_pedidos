@@ -1,13 +1,13 @@
 package dto
 
 type ErrorResponse struct {
-	code    int
-	message string
+	Code    int    `json:"code"`
+	Message string `json:"message"`
 }
 
 func NewError(code int, message string) ErrorResponse {
 	return ErrorResponse{
-		code:    code,
-		message: message,
+		Code:    code,
+		Message: message,
 	}
 }
