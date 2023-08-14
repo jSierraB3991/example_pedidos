@@ -21,7 +21,10 @@ func (repo *Repository) SaveShop(facture *models.Facture, detail *models.DetailF
 
 		exists.Total = exists.Total + detail.Total
 		detail.FactureID = exists.ID
-		repo.db.Save(exists)
+		result := repo.db.Save(exists)
+		if result.Error != nil {
+			return result.Error
+		}
 
 	} else {
 		facture.Total = detail.Total
@@ -33,6 +36,24 @@ func (repo *Repository) SaveShop(facture *models.Facture, detail *models.DetailF
 		detail.FactureID = facture.ID
 	}
 	return repo.saveDetail(detail)
+}
+
+func (repo *Repository) FinishShop(id string) error {
+	exists := &models.Facture{}
+	err := repo.db.Find(&exists, id)
+	if err.Error != nil {
+		return errors.New(fmt.Sprintf("The facture %s is not exists", id))
+	}
+
+	if exists.State == models.FINSIH {
+		return errors.New(fmt.Sprintf("The facture %s is finished", id))
+	}
+	exists.State = models.FINSIH
+	err = repo.db.Save(exists)
+	if err.Error != nil {
+		return err.Error
+	}
+	return nil
 }
 
 func (repo *Repository) saveDetail(detail *models.DetailFacture) error {
