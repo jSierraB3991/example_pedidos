@@ -41,15 +41,23 @@ func (controller *FactureController) FinishShop(c echo.Context) error {
 
 func (controller *FactureController) GetFacture(c echo.Context) error {
 	id := c.Param("id")
-	detailsFacture, err := controller.repo.GetFacture(id)
+	response, err := controller.getFactureDetailById(id)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, dto.NewError(http.StatusInternalServerError, err.Error()))
 	}
-	c.JSON(http.StatusOK, controller.mapToResponse(*detailsFacture, id))
+	c.JSON(http.StatusOK, response)
 	return nil
 }
 
-func (controller FactureController) getShopToRequest(request dto.ShopRequest) (*models.Facture, *models.DetailFacture) {
+func (controller FactureController) getFactureDetailById(id string) (dto.FactureResponse, error) {
+	detailsFacture, err := controller.repo.GetFacture(id)
+	if err != nil {
+		return dto.FactureResponse{}, err
+	}
+	return controller.mapToResponse(*detailsFacture, id), nil
+}
+
+func (controller *FactureController) getShopToRequest(request dto.ShopRequest) (*models.Facture, *models.DetailFacture) {
 	var totalArticle = request.Stock * request.SubTotal
 	return &models.Facture{
 			ID:       request.IdShop,
@@ -63,6 +71,20 @@ func (controller FactureController) getShopToRequest(request dto.ShopRequest) (*
 			Stock:        request.Stock,
 			Total:        totalArticle,
 		}
+}
+
+func (controller *FactureController) MigrateToMongo(c echo.Context) error {
+	id := c.Param("id")
+	response, err := controller.getFactureDetailById(id)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, dto.NewError(http.StatusInternalServerError, err.Error()))
+	}
+
+	err = controller.repo.SaveFactureOnMongo(response)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, dto.NewError(http.StatusInternalServerError, err.Error()))
+	}
+	return c.JSON(http.StatusOK, nil)
 }
 
 func (controller FactureController) mapToResponse(details []models.DetailFacture, idShop string) dto.FactureResponse {

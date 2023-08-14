@@ -1,6 +1,8 @@
 package controller
 
-import "github.com/jsierrab3991/example_pedidos/repository"
+import (
+	"github.com/jsierrab3991/example_pedidos/repository"
+)
 
 type Controller struct {
 	User     *UserController

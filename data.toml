@@ -1,0 +1,9 @@
+[database]
+url = "host=localhost user=postgres password=root dbname=pedidos port=5432 sslmode=disable TimeZone=America/Bogota"
+name = "pedidos"
+
+[mongo]
+uri = "mongodb://localhost:27017/"
+
+[server]
+port = 3000

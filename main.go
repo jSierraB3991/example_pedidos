@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/devfeel/mapper"
@@ -33,10 +34,12 @@ func init() {
 func main() {
 	e := echo.New()
 
-	c := libs.Configure("./", "postgres")
+	c := libs.Configure("./", "data")
 	db := database.New(c)
+	ctx := context.TODO()
+	mongoCollection := database.ConnectToMongo(c.MongoUri, ctx)
 	database.AutoMigrate(db)
-	repo := repository.InitiateRepo(db)
+	repo := repository.InitiateRepo(db, mongoCollection, ctx)
 
 	controllers := controller.InitiateControllers(repo)
 	routes.Routes(e, controllers)

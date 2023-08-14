@@ -40,4 +40,5 @@ func FactureRoutes(e *echo.Echo, controller *controller.FactureController) {
 	e.POST("/shop", controller.Shop)
 	e.GET("/shop/:id", controller.GetFacture)
 	e.PUT("/facture/:id", controller.FinishShop)
+	e.POST("/mongo/facture/:id", controller.MigrateToMongo)
 }
