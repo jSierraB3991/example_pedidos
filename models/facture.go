@@ -6,6 +6,13 @@ import (
 	"gorm.io/gorm"
 )
 
+type StateFacture string
+
+const (
+	UPDATING StateFacture = "UPDATING"
+	FINSIH   StateFacture = "FINISH"
+)
+
 type Facture struct {
 	gorm.Model
 	ID       uint
@@ -15,4 +22,5 @@ type Facture struct {
 	UserID   int
 	User     User
 	Total    int `gorm:"not null"`
+	State    StateFacture
 }

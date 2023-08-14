@@ -14,12 +14,18 @@ func (repo *Repository) SaveShop(facture *models.Facture, detail *models.DetailF
 		if err.Error != nil {
 			return errors.New(fmt.Sprintf("The facture %d is not exists", facture.ID))
 		}
+
+		if exists.State == models.FINSIH {
+			return errors.New(fmt.Sprintf("The facture %d is finished", facture.ID))
+		}
+
 		exists.Total = exists.Total + detail.Total
 		detail.FactureID = exists.ID
 		repo.db.Save(exists)
 
 	} else {
 		facture.Total = detail.Total
+		facture.State = models.UPDATING
 		result := repo.db.Create(&facture)
 		if result.Error != nil {
 			return result.Error
