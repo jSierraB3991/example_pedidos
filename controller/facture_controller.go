@@ -39,6 +39,16 @@ func (controller *FactureController) FinishShop(c echo.Context) error {
 	return nil
 }
 
+func (controller *FactureController) GetFacture(c echo.Context) error {
+	id := c.Param("id")
+	detailsFacture, err := controller.repo.GetFacture(id)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, dto.NewError(http.StatusInternalServerError, err.Error()))
+	}
+	c.JSON(http.StatusOK, controller.mapToResponse(*detailsFacture, id))
+	return nil
+}
+
 func (controller FactureController) getShopToRequest(request dto.ShopRequest) (*models.Facture, *models.DetailFacture) {
 	return &models.Facture{
 			Date:     time.Now(),
@@ -53,4 +63,31 @@ func (controller FactureController) getShopToRequest(request dto.ShopRequest) (*
 			Stock:        request.Stock,
 			Total:        request.Total,
 		}
+}
+
+func (controller FactureController) mapToResponse(details []models.DetailFacture, idShop string) dto.FactureResponse {
+	facture := details[0].Facture
+
+	detailsdto := []dto.DetailFactureResponse{}
+	for _, detail := range details {
+		detailsdto = append(detailsdto, dto.DetailFactureResponse{
+			Stock:              detail.Stock,
+			Total:              detail.Total,
+			ArticleName:        detail.Article.Name,
+			ArticlePrice:       detail.Article.Price,
+			ArticleModel:       detail.Article.ModelArticle,
+			ArticleDescription: detail.Article.Description,
+		})
+	}
+	return dto.FactureResponse{
+		IdShop:         idShop,
+		Date:           facture.Date,
+		ClientName:     facture.Client.Name,
+		ClientLastName: facture.Client.LastName,
+		ClientEmail:    facture.Client.Email,
+		DistrictName:   facture.Client.District.Name,
+		User:           facture.User.Name + " " + facture.User.LastName,
+		Total:          facture.Total,
+		Detail:         detailsdto,
+	}
 }
