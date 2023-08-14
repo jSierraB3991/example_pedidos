@@ -7,5 +7,4 @@ type ShopRequest struct {
 	Stock     int  `json:"stock"`
 	UserId    int  `json:"user_id"`
 	SubTotal  int  `json:"sub_total"`
-	Total     int
 }

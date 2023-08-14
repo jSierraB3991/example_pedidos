@@ -50,18 +50,18 @@ func (controller *FactureController) GetFacture(c echo.Context) error {
 }
 
 func (controller FactureController) getShopToRequest(request dto.ShopRequest) (*models.Facture, *models.DetailFacture) {
+	var totalArticle = request.Stock * request.SubTotal
 	return &models.Facture{
+			ID:       request.IdShop,
 			Date:     time.Now(),
 			ClientID: request.ClientID,
 			UserID:   request.UserId,
-			Total:    request.Total,
 		},
 		&models.DetailFacture{
-			FactureID:    0,
 			ArticleID:    request.ArticleID,
 			PriceArticle: request.SubTotal,
 			Stock:        request.Stock,
-			Total:        request.Total,
+			Total:        totalArticle,
 		}
 }
 

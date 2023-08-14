@@ -8,6 +8,7 @@ import (
 
 type Facture struct {
 	gorm.Model
+	ID       uint
 	Date     time.Time
 	ClientID int
 	Client   Client `gorm:"not null"`
