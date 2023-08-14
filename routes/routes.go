@@ -39,5 +39,5 @@ func ClientRoutes(e *echo.Echo, controller *controller.ClientController) {
 func FactureRoutes(e *echo.Echo, controller *controller.FactureController) {
 	e.POST("/shop", controller.Shop)
 	e.GET("/shop/:id", controller.GetFacture)
-	e.POST("/facture", controller.FinishShop)
+	e.PUT("/facture/:id", controller.FinishShop)
 }
